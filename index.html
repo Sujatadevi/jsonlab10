@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Lab-8</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="css/normalize.css" rel="stylesheet" />
+	<link href="css/styles.css" rel="stylesheet" />
+	<script src="thirdapi.js" async defer></script>
+	<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3gadA_wR15rv7ZirRqZQVwNCXXpUWxB4&callback=initMap">
+    </script>
+</head>
+
+<body>
+	<header>
+
+	</header>
+	<section>
+	
+
+		</section>
+	<footer>
+
+	</footer>
+	<script>
+		let header = document.querySelector('header');
+		let section = document.querySelector('section');
+
+		let requestURL = 'https://sujatadevi.github.io/jsonlab10/products.json';
+
+		let request = new XMLHttpRequest(); 
+ 
+		request.open('GET', requestURL); 
+
+		request.responseType = 'json'; 
+		
+
+		request.send();
+		
+		request.onload = function() {
+			let lab = request.response; 
+			console.log(lab); 
+			populateHeader(lab); 
+			topDeals(lab); 
+		}
+		function populateHeader(jsontype) {
+			let headerH1 = document.createElement('h1'); 
+			headerH1.textContent = jsontype['companyName'];
+			header.appendChild(headerH1); 
+			let headerPara = document.createElement('p'); 
+			headerPara.textContent = jsontype['headOffice']; 
+			header.appendChild(headerPara); 
+		}
+		function topDeals(jsontype) {
+			let topDeals = jsontype['topDeals']; 
+			for(let i = 0; i < topDeals.length; i++) {
+				let article = document.createElement('article');
+				let h2 = document.createElement('h2'); 
+				let img = document.createElement('img'); 
+				let p1 = document.createElement('p'); 
+				let p2 = document.createElement('p'); 
+				let list = document.createElement('ul'); 
+
+				img.setAttribute('src', 'images/' + topDeals[i].image); 
+				img.setAttribute('alt', topDeals[i].name);
+				h2.textContent = topDeals[i].name;
+				p1.textContent = topDeals[i].price;
+				p2.textContent = topDeals[i].description; 
+				
+				let features = topDeals[i].features;
+				for(let j = 0; j < features.length; j++ ) {
+					let listItem = document.createElement('li'); 
+					listItem.textContent = features[j]; 
+					list.appendChild(listItem); 
+				}
+
+				article.appendChild(img);
+				article.appendChild(h2); 
+				article.appendChild(p1); 
+				article.appendChild(p2); 
+				article.appendChild(list); 
+				section.appendChild(article); 
+			}
+		}
+		</script>
+		<h3>Find an icecream shop </h3>
+		<button id="shop" type=" box">Search a near icecream</button>
+		 <div id="testing"></div>
+	</body>
+</html>
